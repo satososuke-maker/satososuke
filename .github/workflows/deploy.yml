@@ -12,32 +12,32 @@ jobs:
   deploy:
     name: FTP Deploy to WPX
     runs-on: ubuntu-latest
+    environment: FTP_SERVER   # Variables タブで登録した Environment 名
 
     steps:
       - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Check secrets
+      - name: Check variables
         run: |
           if [ -z "$FTP_SERVER" ] || [ -z "$FTP_USER" ] || [ -z "$FTP_PASS" ]; then
-            echo "::error::GitHub Secrets が未設定です。Settings > Secrets and variables > Actions で FTP_SERVER / FTP_USER / FTP_PASS を登録してください。"
+            echo "::error::FTP 変数が未設定です。Settings > Environments > FTP_SERVER で FTP_SERVER / FTP_USER / FTP_PASS を確認してください。"
             exit 1
           fi
         env:
-          FTP_SERVER: ${{ secrets.FTP_SERVER }}
-          FTP_USER:   ${{ secrets.FTP_USER }}
-          FTP_PASS:   ${{ secrets.FTP_PASS }}
+          FTP_SERVER: ${{ vars.FTP_SERVER }}
+          FTP_USER:   ${{ vars.FTP_USER }}
+          FTP_PASS:   ${{ vars.FTP_PASS }}
 
       - name: Install lftp
         run: sudo apt-get install -y lftp
 
       - name: Deploy via FTP
         env:
-          FTP_SERVER: ${{ secrets.FTP_SERVER }}
-          FTP_USER:   ${{ secrets.FTP_USER }}
-          FTP_PASS:   ${{ secrets.FTP_PASS }}
+          FTP_SERVER: ${{ vars.FTP_SERVER }}
+          FTP_USER:   ${{ vars.FTP_USER }}
+          FTP_PASS:   ${{ vars.FTP_PASS }}
         run: |
-          # ~/.netrc に認証情報を書き込むことでパスワード内の特殊文字を安全に扱う
           echo "machine $FTP_SERVER login $FTP_USER password $FTP_PASS" > ~/.netrc
           chmod 600 ~/.netrc
 
