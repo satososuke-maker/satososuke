@@ -48,7 +48,7 @@ jobs:
             mirror -R --verbose --delete \
               --exclude-glob=.git \
               --exclude-glob=.DS_Store \
-              theme/sosuke-sato/ /public_html/wp-content/themes/sosuke-sato/;
+              theme/sosuke-sato/ /sato-sosuke.com/public_html/wp-content/themes/sosuke-sato/;
             bye
           "
 
