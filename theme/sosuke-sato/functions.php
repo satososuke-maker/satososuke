@@ -5,7 +5,7 @@
 
 if ( ! defined( 'ABSPATH' ) ) exit;
 
-define( 'SOSUKE_VERSION', '1.0.0' );
+define( 'SOSUKE_VERSION', '1.1.0' );
 define( 'SOSUKE_URI', get_template_directory_uri() );
 
 /* ------------------------------------------------------------------
@@ -56,6 +56,109 @@ function sosuke_enqueue_assets() {
 	);
 }
 add_action( 'wp_enqueue_scripts', 'sosuke_enqueue_assets' );
+
+/* ------------------------------------------------------------------
+   Activities: Custom Post Type & Taxonomy
+   ------------------------------------------------------------------ */
+function sosuke_register_activity_cpt() {
+	register_post_type( 'activity_post', [
+		'labels' => [
+			'name'          => '活動記録',
+			'singular_name' => '活動記録',
+			'add_new_item'  => '新規活動記録を追加',
+			'edit_item'     => '活動記録を編集',
+			'all_items'     => 'すべての活動記録',
+			'search_items'  => '活動記録を検索',
+			'not_found'     => '活動記録が見つかりません',
+		],
+		'public'       => true,
+		'has_archive'  => false,
+		'show_in_rest' => true,
+		'menu_icon'    => 'dashicons-camera',
+		'supports'     => [ 'title', 'editor', 'thumbnail', 'excerpt' ],
+		'rewrite'      => [ 'slug' => 'activities', 'with_front' => false ],
+	] );
+
+	register_taxonomy( 'activity_category', 'activity_post', [
+		'labels' => [
+			'name'          => '活動カテゴリ',
+			'singular_name' => '活動カテゴリ',
+		],
+		'public'       => true,
+		'hierarchical' => true,
+		'show_in_rest' => true,
+		'rewrite'      => [ 'slug' => 'activities/category', 'with_front' => false ],
+	] );
+}
+add_action( 'init', 'sosuke_register_activity_cpt' );
+
+/* ------------------------------------------------------------------
+   Activities: icon / English-name lookup by taxonomy term slug
+   ------------------------------------------------------------------ */
+function sosuke_activity_meta( $slug ) {
+	$meta = [
+		'business'   => [ 'icon' => '💼', 'name_en' => 'Business',   'customizer_key' => 'activity_business' ],
+		'music'      => [ 'icon' => '🎵', 'name_en' => 'Music',      'customizer_key' => 'activity_music' ],
+		'travel'     => [ 'icon' => '✈️', 'name_en' => 'Travel',     'customizer_key' => 'activity_travel' ],
+		'farming'    => [ 'icon' => '🌱', 'name_en' => 'Farming',    'customizer_key' => 'activity_farming' ],
+		'kickboxing' => [ 'icon' => '🥊', 'name_en' => 'Kickboxing', 'customizer_key' => 'activity_kickboxing' ],
+	];
+	return $meta[ $slug ] ?? [ 'icon' => '⭐', 'name_en' => '', 'customizer_key' => '' ];
+}
+
+/* ------------------------------------------------------------------
+   First-run setup: create 活動カテゴリ terms + プロフィール/活動/コンタクト pages
+   ------------------------------------------------------------------ */
+function sosuke_setup_content() {
+	if ( get_option( 'sosuke_pages_created' ) ) {
+		return;
+	}
+
+	$categories = [
+		'business'   => '事業',
+		'music'      => '音楽活動',
+		'travel'     => '旅行記',
+		'farming'    => '野菜作り',
+		'kickboxing' => 'キックボクシング',
+	];
+	foreach ( $categories as $slug => $name ) {
+		if ( ! term_exists( $slug, 'activity_category' ) ) {
+			wp_insert_term( $name, 'activity_category', [ 'slug' => $slug ] );
+		}
+	}
+
+	$pages = [
+		'profile'    => [ 'title' => 'プロフィール', 'template' => 'template-profile.php' ],
+		'activities' => [ 'title' => '活動',         'template' => 'template-activities.php' ],
+		'contact'    => [ 'title' => 'コンタクト',   'template' => 'template-contact.php' ],
+	];
+	foreach ( $pages as $slug => $args ) {
+		if ( get_page_by_path( $slug ) ) {
+			continue;
+		}
+		$id = wp_insert_post( [
+			'post_title'  => $args['title'],
+			'post_name'   => $slug,
+			'post_type'   => 'page',
+			'post_status' => 'publish',
+		] );
+		if ( $id && ! is_wp_error( $id ) ) {
+			update_post_meta( $id, '_wp_page_template', $args['template'] );
+		}
+	}
+
+	update_option( 'sosuke_pages_created', 1 );
+	flush_rewrite_rules();
+}
+add_action( 'init', 'sosuke_setup_content', 20 );
+
+/* ------------------------------------------------------------------
+   Helper: permalink of an auto-created page by slug
+   ------------------------------------------------------------------ */
+function sosuke_page_url( $slug ) {
+	$page = get_page_by_path( $slug );
+	return $page ? get_permalink( $page ) : home_url( '/' . $slug . '/' );
+}
 
 /* ------------------------------------------------------------------
    Customizer: Profile & Activities
@@ -124,12 +227,24 @@ function sosuke_customizer( $wp_customize ) {
 			'default' => 'https://linktr.ee/sosukesato',
 			'type'    => 'url',
 		],
+		'contact_email' => [
+			'label'   => '連絡先メールアドレス',
+			'default' => '',
+			'type'    => 'email',
+		],
 	];
 
 	foreach ( $fields as $key => $args ) {
+		$sanitize_callback = 'esc_url_raw';
+		if ( 'textarea' === $args['type'] ) {
+			$sanitize_callback = 'sanitize_textarea_field';
+		} elseif ( 'email' === $args['type'] ) {
+			$sanitize_callback = 'sanitize_email';
+		}
+
 		$wp_customize->add_setting( 'sosuke_' . $key, [
 			'default'           => $args['default'],
-			'sanitize_callback' => 'textarea' === $args['type'] ? 'sanitize_textarea_field' : 'esc_url_raw',
+			'sanitize_callback' => $sanitize_callback,
 		] );
 
 		$control_args = [

@@ -73,7 +73,7 @@
       });
     }, { threshold: 0.1 });
 
-    document.querySelectorAll('.activity-card, .about-inner, .social-link-card').forEach(function (el) {
+    document.querySelectorAll('.activity-card, .explore-card, .about-inner, .social-link-card').forEach(function (el) {
       el.classList.add('fade-in');
       observer.observe(el);
     });

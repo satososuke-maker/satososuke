@@ -18,15 +18,10 @@
 
     <!-- Desktop nav -->
     <nav class="nav-menu" aria-label="メインナビゲーション">
-      <?php if ( is_front_page() ) : ?>
-        <a href="#about">About</a>
-        <a href="#activities">Activities</a>
-        <a href="#contact">Contact</a>
-      <?php else : ?>
-        <a href="<?php echo esc_url( home_url( '/' ) ); ?>">Home</a>
-        <a href="<?php echo esc_url( home_url( '/#activities' ) ); ?>">Activities</a>
-        <a href="<?php echo esc_url( home_url( '/#contact' ) ); ?>">Contact</a>
-      <?php endif; ?>
+      <a href="<?php echo esc_url( home_url( '/' ) ); ?>">Home</a>
+      <a href="<?php echo esc_url( sosuke_page_url( 'profile' ) ); ?>">プロフィール</a>
+      <a href="<?php echo esc_url( sosuke_page_url( 'activities' ) ); ?>">活動</a>
+      <a href="<?php echo esc_url( sosuke_page_url( 'contact' ) ); ?>">コンタクト</a>
     </nav>
 
     <!-- Mobile toggle -->
@@ -41,13 +36,8 @@
 
 <!-- Mobile nav overlay -->
 <nav class="nav-mobile" id="nav-mobile" aria-label="モバイルナビゲーション">
-  <?php if ( is_front_page() ) : ?>
-    <a href="#about" class="nav-mobile-link">About</a>
-    <a href="#activities" class="nav-mobile-link">Activities</a>
-    <a href="#contact" class="nav-mobile-link">Contact</a>
-  <?php else : ?>
-    <a href="<?php echo esc_url( home_url( '/' ) ); ?>" class="nav-mobile-link">Home</a>
-    <a href="<?php echo esc_url( home_url( '/#activities' ) ); ?>" class="nav-mobile-link">Activities</a>
-    <a href="<?php echo esc_url( home_url( '/#contact' ) ); ?>" class="nav-mobile-link">Contact</a>
-  <?php endif; ?>
+  <a href="<?php echo esc_url( home_url( '/' ) ); ?>" class="nav-mobile-link">Home</a>
+  <a href="<?php echo esc_url( sosuke_page_url( 'profile' ) ); ?>" class="nav-mobile-link">プロフィール</a>
+  <a href="<?php echo esc_url( sosuke_page_url( 'activities' ) ); ?>" class="nav-mobile-link">活動</a>
+  <a href="<?php echo esc_url( sosuke_page_url( 'contact' ) ); ?>" class="nav-mobile-link">コンタクト</a>
 </nav>

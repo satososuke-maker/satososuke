@@ -4,7 +4,7 @@ Theme URI: https://sato-sosuke.com
 Author: Sosuke Sato
 Author URI: https://sato-sosuke.com
 Description: 佐藤聡介のオフィシャルプロフィールサイト
-Version: 1.0.0
+Version: 1.1.0
 Requires at least: 6.0
 Tested up to: 6.6
 Requires PHP: 8.0
@@ -444,7 +444,7 @@ button { cursor: pointer; border: none; background: none; font-family: var(--fon
   gap: 24px;
 }
 
-.activity-card { grid-column: span 2; }
+.activity-card { grid-column: span 2; display: block; }
 
 .activity-card:nth-child(4) { grid-column: 2 / 4; }
 .activity-card:nth-child(5) { grid-column: 4 / 6; }
@@ -493,6 +493,92 @@ button { cursor: pointer; border: none; background: none; font-family: var(--fon
   color: var(--text-muted);
   line-height: 1.8;
   margin-top: 4px;
+}
+
+/* ============================================================
+   Explore (front page nav cards)
+   ============================================================ */
+.explore {
+  padding: 96px 0;
+  background: var(--bg-alt);
+}
+
+.explore-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 24px;
+}
+
+.explore-card {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 8px;
+  position: relative;
+  background: var(--white);
+  border-radius: var(--radius);
+  padding: 40px 32px;
+  box-shadow: var(--shadow);
+  transition: transform var(--transition), box-shadow var(--transition);
+}
+
+.explore-card:hover {
+  transform: translateY(-6px);
+  box-shadow: var(--shadow-hover);
+}
+
+.explore-icon {
+  font-size: 2.5rem;
+  line-height: 1;
+  margin-bottom: 4px;
+}
+
+.explore-title {
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: var(--text);
+}
+
+.explore-desc {
+  font-size: 0.9rem;
+  color: var(--text-muted);
+  line-height: 1.8;
+}
+
+.explore-arrow {
+  position: absolute;
+  top: 32px;
+  right: 28px;
+  color: var(--accent);
+  font-size: 1.1rem;
+  transition: transform var(--transition);
+}
+
+.explore-card:hover .explore-arrow { transform: translateX(4px); }
+
+/* ============================================================
+   Breadcrumb / taxonomy description
+   ============================================================ */
+.breadcrumb {
+  font-size: 0.8rem;
+  color: rgba(255, 255, 255, 0.5);
+  margin-bottom: 12px;
+  letter-spacing: 0.03em;
+}
+
+.breadcrumb a {
+  color: rgba(255, 255, 255, 0.75);
+  transition: color var(--transition);
+}
+
+.breadcrumb a:hover { color: var(--white); }
+
+.taxonomy-desc {
+  max-width: 640px;
+  margin: 0 auto 48px;
+  text-align: center;
+  color: var(--text-muted);
+  line-height: 1.8;
 }
 
 /* ============================================================
@@ -723,6 +809,8 @@ button { cursor: pointer; border: none; background: none; font-family: var(--fon
   .activity-card,
   .activity-card:nth-child(4),
   .activity-card:nth-child(5) { grid-column: span 1; }
+
+  .explore-grid { grid-template-columns: 1fr; }
 }
 
 @media (max-width: 640px) {
