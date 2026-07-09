@@ -107,6 +107,51 @@ function sosuke_activity_meta( $slug ) {
 }
 
 /* ------------------------------------------------------------------
+   Activities: category highlights list (term meta, editable per category)
+   ------------------------------------------------------------------ */
+function sosuke_activity_category_add_form_field( $taxonomy ) {
+	?>
+	<div class="form-field">
+		<label for="sosuke-highlights">ハイライト・実績リスト</label>
+		<textarea name="sosuke_highlights" id="sosuke-highlights" rows="5" cols="40"></textarea>
+		<p>できること・実績を1行につき1項目で入力してください（省略可）。</p>
+	</div>
+	<?php
+}
+add_action( 'activity_category_add_form_fields', 'sosuke_activity_category_add_form_field' );
+
+function sosuke_activity_category_edit_form_field( $term ) {
+	$value = get_term_meta( $term->term_id, 'sosuke_highlights', true );
+	?>
+	<tr class="form-field">
+		<th scope="row"><label for="sosuke-highlights">ハイライト・実績リスト</label></th>
+		<td>
+			<textarea name="sosuke_highlights" id="sosuke-highlights" rows="5" cols="40"><?php echo esc_textarea( $value ); ?></textarea>
+			<p class="description">できること・実績を1行につき1項目で入力してください（省略可）。</p>
+		</td>
+	</tr>
+	<?php
+}
+add_action( 'activity_category_edit_form_fields', 'sosuke_activity_category_edit_form_field' );
+
+function sosuke_save_activity_category_meta( $term_id ) {
+	if ( isset( $_POST['sosuke_highlights'] ) ) {
+		update_term_meta( $term_id, 'sosuke_highlights', sanitize_textarea_field( wp_unslash( $_POST['sosuke_highlights'] ) ) );
+	}
+}
+add_action( 'created_activity_category', 'sosuke_save_activity_category_meta' );
+add_action( 'edited_activity_category', 'sosuke_save_activity_category_meta' );
+
+function sosuke_get_activity_highlights( $term_id ) {
+	$raw = get_term_meta( $term_id, 'sosuke_highlights', true );
+	if ( ! $raw ) {
+		return [];
+	}
+	$lines = array_map( 'trim', explode( "\n", $raw ) );
+	return array_values( array_filter( $lines ) );
+}
+
+/* ------------------------------------------------------------------
    First-run setup: create 活動カテゴリ terms + プロフィール/活動/コンタクト pages
    ------------------------------------------------------------------ */
 function sosuke_setup_content() {

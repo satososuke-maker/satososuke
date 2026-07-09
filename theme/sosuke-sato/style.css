@@ -581,6 +581,44 @@ button { cursor: pointer; border: none; background: none; font-family: var(--fon
   line-height: 1.8;
 }
 
+.highlights {
+  max-width: 640px;
+  margin: 0 auto 56px;
+}
+
+.highlights-title {
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: var(--text);
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.highlights-list {
+  display: grid;
+  gap: 12px;
+}
+
+.highlight-item {
+  position: relative;
+  padding: 14px 20px 14px 44px;
+  background: var(--bg-alt);
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--border);
+  font-size: 0.9rem;
+  color: var(--text);
+  line-height: 1.6;
+}
+
+.highlight-item::before {
+  content: '✓';
+  position: absolute;
+  left: 16px;
+  top: 14px;
+  color: var(--accent);
+  font-weight: 700;
+}
+
 /* ============================================================
    Social / Contact
    ============================================================ */
