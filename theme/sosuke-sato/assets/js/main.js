@@ -1,25 +1,22 @@
 (function () {
   'use strict';
 
-  const header   = document.getElementById('site-header');
-  const toggle   = document.getElementById('nav-toggle');
+  const header    = document.getElementById('site-header');
+  const toggle    = document.getElementById('nav-toggle');
   const mobileNav = document.getElementById('nav-mobile');
 
-  /* ---- Header: transparent → solid on scroll ---- */
+  /* ---- Header scroll style ---- */
   function updateHeader() {
-    if (window.scrollY > 60) {
+    if (window.scrollY > 40) {
       header.classList.add('scrolled');
-      header.classList.remove('transparent');
     } else {
       header.classList.remove('scrolled');
-      header.classList.add('transparent');
     }
   }
-
   window.addEventListener('scroll', updateHeader, { passive: true });
   updateHeader();
 
-  /* ---- Mobile menu toggle ---- */
+  /* ---- Mobile menu ---- */
   if (toggle && mobileNav) {
     toggle.addEventListener('click', function () {
       const isOpen = mobileNav.classList.toggle('open');
@@ -27,8 +24,6 @@
       toggle.setAttribute('aria-expanded', String(isOpen));
       document.body.style.overflow = isOpen ? 'hidden' : '';
     });
-
-    /* Close on link click */
     mobileNav.querySelectorAll('a').forEach(function (link) {
       link.addEventListener('click', function () {
         mobileNav.classList.remove('open');
@@ -39,29 +34,40 @@
     });
   }
 
-  /* ---- Smooth scroll for anchor links ---- */
+  /* ---- Smooth scroll ---- */
   document.querySelectorAll('a[href^="#"]').forEach(function (anchor) {
     anchor.addEventListener('click', function (e) {
-      const targetId = this.getAttribute('href').slice(1);
-      if (!targetId) return;
-
-      const target = document.getElementById(targetId);
+      const id = this.getAttribute('href').slice(1);
+      if (!id) return;
+      const target = document.getElementById(id);
       if (!target) return;
-
       e.preventDefault();
-
-      const offset = parseInt(getComputedStyle(document.documentElement)
-        .getPropertyValue('--header-h'), 10) || 64;
-
-      const top = target.getBoundingClientRect().top + window.scrollY - offset;
-      window.scrollTo({ top, behavior: 'smooth' });
+      const offset = 64;
+      window.scrollTo({ top: target.getBoundingClientRect().top + window.scrollY - offset, behavior: 'smooth' });
     });
   });
 
-  /* ---- Fade-in on scroll (activity cards) ---- */
+  /* ---- News category filter ---- */
+  const filterBtns = document.querySelectorAll('.filter-btn');
+  const newsItems  = document.querySelectorAll('.news-item');
+
+  filterBtns.forEach(function (btn) {
+    btn.addEventListener('click', function () {
+      filterBtns.forEach(function (b) { b.classList.remove('active'); });
+      this.classList.add('active');
+
+      const filter = this.dataset.filter;
+      newsItems.forEach(function (item) {
+        const show = filter === 'all' || item.dataset.category === filter;
+        item.style.display = show ? '' : 'none';
+      });
+    });
+  });
+
+  /* ---- Fade-in on scroll ---- */
   if ('IntersectionObserver' in window) {
     const style = document.createElement('style');
-    style.textContent = '.fade-in { opacity: 0; transform: translateY(24px); transition: opacity 0.5s ease, transform 0.5s ease; } .fade-in.visible { opacity: 1; transform: none; }';
+    style.textContent = '.fade-in{opacity:0;transform:translateY(20px);transition:opacity .45s ease,transform .45s ease}.fade-in.visible{opacity:1;transform:none}';
     document.head.appendChild(style);
 
     const observer = new IntersectionObserver(function (entries) {
@@ -71,9 +77,9 @@
           observer.unobserve(entry.target);
         }
       });
-    }, { threshold: 0.1 });
+    }, { threshold: 0.08 });
 
-    document.querySelectorAll('.activity-card, .explore-card, .about-inner, .social-link-card').forEach(function (el) {
+    document.querySelectorAll('.activity-item, .news-item, .explore-card, .about-inner, .social-link-card').forEach(function (el) {
       el.classList.add('fade-in');
       observer.observe(el);
     });

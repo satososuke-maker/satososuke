@@ -6,6 +6,10 @@ $terms = get_terms( [
 	'taxonomy'   => 'activity_category',
 	'hide_empty' => false,
 ] );
+
+usort( $terms, function ( $a, $b ) {
+	return sosuke_get_activity_order( $a->term_id ) <=> sosuke_get_activity_order( $b->term_id );
+} );
 ?>
 
 <div class="page-wrap">

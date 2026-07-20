@@ -97,11 +97,12 @@ add_action( 'init', 'sosuke_register_activity_cpt' );
    ------------------------------------------------------------------ */
 function sosuke_activity_meta( $slug ) {
 	$meta = [
-		'business'   => [ 'icon' => '💼', 'name_en' => 'Business',   'customizer_key' => 'activity_business' ],
-		'music'      => [ 'icon' => '🎵', 'name_en' => 'Music',      'customizer_key' => 'activity_music' ],
-		'travel'     => [ 'icon' => '✈️', 'name_en' => 'Travel',     'customizer_key' => 'activity_travel' ],
-		'farming'    => [ 'icon' => '🌱', 'name_en' => 'Farming',    'customizer_key' => 'activity_farming' ],
-		'kickboxing' => [ 'icon' => '🥊', 'name_en' => 'Kickboxing', 'customizer_key' => 'activity_kickboxing' ],
+		'business'   => [ 'icon' => '💻', 'name_en' => 'Business',   'label' => '仕事',           'customizer_key' => 'activity_business' ],
+		'music'      => [ 'icon' => '🎸', 'name_en' => 'Music',      'label' => '音楽',           'customizer_key' => 'activity_music' ],
+		'travel'     => [ 'icon' => '🗾', 'name_en' => 'Travel',     'label' => '旅行',           'customizer_key' => 'activity_travel' ],
+		'farming'    => [ 'icon' => '🥬', 'name_en' => 'Farming',    'label' => '野菜作り',       'customizer_key' => 'activity_farming' ],
+		'eating'     => [ 'icon' => '🍽️', 'name_en' => 'Food',       'label' => '食べ歩き',       'customizer_key' => 'activity_eating' ],
+		'kickboxing' => [ 'icon' => '🥊', 'name_en' => 'Kickboxing', 'label' => 'キックボクシング', 'customizer_key' => 'activity_kickboxing' ],
 	];
 	return $meta[ $slug ] ?? [ 'icon' => '⭐', 'name_en' => '', 'customizer_key' => '' ];
 }
@@ -116,18 +117,31 @@ function sosuke_activity_category_add_form_field( $taxonomy ) {
 		<textarea name="sosuke_highlights" id="sosuke-highlights" rows="5" cols="40"></textarea>
 		<p>できること・実績を1行につき1項目で入力してください（省略可）。</p>
 	</div>
+	<div class="form-field">
+		<label for="sosuke-order">表示順</label>
+		<input type="number" name="sosuke_order" id="sosuke-order" step="10" value="">
+		<p>「活動」ページでの並び順です。数字が小さいほど先に表示されます（未入力の場合は最後尾）。</p>
+	</div>
 	<?php
 }
 add_action( 'activity_category_add_form_fields', 'sosuke_activity_category_add_form_field' );
 
 function sosuke_activity_category_edit_form_field( $term ) {
-	$value = get_term_meta( $term->term_id, 'sosuke_highlights', true );
+	$highlights = get_term_meta( $term->term_id, 'sosuke_highlights', true );
+	$order      = get_term_meta( $term->term_id, 'sosuke_order', true );
 	?>
 	<tr class="form-field">
 		<th scope="row"><label for="sosuke-highlights">ハイライト・実績リスト</label></th>
 		<td>
-			<textarea name="sosuke_highlights" id="sosuke-highlights" rows="5" cols="40"><?php echo esc_textarea( $value ); ?></textarea>
+			<textarea name="sosuke_highlights" id="sosuke-highlights" rows="5" cols="40"><?php echo esc_textarea( $highlights ); ?></textarea>
 			<p class="description">できること・実績を1行につき1項目で入力してください（省略可）。</p>
+		</td>
+	</tr>
+	<tr class="form-field">
+		<th scope="row"><label for="sosuke-order">表示順</label></th>
+		<td>
+			<input type="number" name="sosuke_order" id="sosuke-order" step="10" value="<?php echo esc_attr( $order ); ?>">
+			<p class="description">「活動」ページでの並び順です。数字が小さいほど先に表示されます（未入力の場合は最後尾）。</p>
 		</td>
 	</tr>
 	<?php
@@ -137,6 +151,9 @@ add_action( 'activity_category_edit_form_fields', 'sosuke_activity_category_edit
 function sosuke_save_activity_category_meta( $term_id ) {
 	if ( isset( $_POST['sosuke_highlights'] ) ) {
 		update_term_meta( $term_id, 'sosuke_highlights', sanitize_textarea_field( wp_unslash( $_POST['sosuke_highlights'] ) ) );
+	}
+	if ( isset( $_POST['sosuke_order'] ) && '' !== $_POST['sosuke_order'] ) {
+		update_term_meta( $term_id, 'sosuke_order', (int) $_POST['sosuke_order'] );
 	}
 }
 add_action( 'created_activity_category', 'sosuke_save_activity_category_meta' );
@@ -151,6 +168,38 @@ function sosuke_get_activity_highlights( $term_id ) {
 	return array_values( array_filter( $lines ) );
 }
 
+function sosuke_get_activity_order( $term_id ) {
+	$order = get_term_meta( $term_id, 'sosuke_order', true );
+	return '' !== $order ? (int) $order : 999;
+}
+
+/* ------------------------------------------------------------------
+   One-time migration: give the 5 initial categories a sane default order
+   ------------------------------------------------------------------ */
+function sosuke_migrate_activity_order() {
+	if ( get_option( 'sosuke_activity_order_migrated' ) ) {
+		return;
+	}
+
+	$defaults = [
+		'business'   => 10,
+		'music'      => 20,
+		'travel'     => 30,
+		'farming'    => 40,
+		'eating'     => 50,
+		'kickboxing' => 60,
+	];
+	foreach ( $defaults as $slug => $order ) {
+		$term = get_term_by( 'slug', $slug, 'activity_category' );
+		if ( $term && '' === get_term_meta( $term->term_id, 'sosuke_order', true ) ) {
+			update_term_meta( $term->term_id, 'sosuke_order', $order );
+		}
+	}
+
+	update_option( 'sosuke_activity_order_migrated', 1 );
+}
+add_action( 'init', 'sosuke_migrate_activity_order', 21 );
+
 /* ------------------------------------------------------------------
    First-run setup: create 活動カテゴリ terms + プロフィール/活動/コンタクト pages
    ------------------------------------------------------------------ */
@@ -160,10 +209,11 @@ function sosuke_setup_content() {
 	}
 
 	$categories = [
-		'business'   => '事業',
-		'music'      => '音楽活動',
-		'travel'     => '旅行記',
+		'business'   => '仕事',
+		'music'      => '音楽',
+		'travel'     => '旅行',
 		'farming'    => '野菜作り',
+		'eating'     => '食べ歩き',
 		'kickboxing' => 'キックボクシング',
 	];
 	foreach ( $categories as $slug => $name ) {
