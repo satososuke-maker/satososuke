@@ -13,22 +13,24 @@ jobs:
   deploy:
     name: FTP Deploy to WPX
     runs-on: ubuntu-latest
-    environment: FTP_SERVER   # Variables タブで登録した Environment 名
+    environment: FTP_SERVER
 
     steps:
       - name: Checkout
         uses: actions/checkout@v4
 
       - name: Check variables
-        run: |
-          if [ -z "$FTP_SERVER" ] || [ -z "$FTP_USER" ] || [ -z "$FTP_PASS" ]; then
-            echo "::error::FTP 変数が未設定です。Settings > Environments > FTP_SERVER で FTP_SERVER / FTP_USER / FTP_PASS を確認してください。"
-            exit 1
-          fi
         env:
           FTP_SERVER: ${{ vars.FTP_SERVER }}
           FTP_USER:   ${{ vars.FTP_USER }}
           FTP_PASS:   ${{ vars.FTP_PASS }}
+        run: |
+          if [ -z "$FTP_SERVER" ] || [ -z "$FTP_USER" ] || [ -z "$FTP_PASS" ]; then
+            echo "::error::FTP 変数が未設定です。Settings > Environments > FTP_SERVER を確認してください。"
+            exit 1
+          fi
+          echo "FTP_SERVER=$FTP_SERVER"
+          echo "FTP_USER=$FTP_USER"
 
       - name: Install lftp
         run: sudo apt-get install -y lftp
@@ -39,17 +41,18 @@ jobs:
           FTP_USER:   ${{ vars.FTP_USER }}
           FTP_PASS:   ${{ vars.FTP_PASS }}
         run: |
-          echo "machine $FTP_SERVER login $FTP_USER password $FTP_PASS" > ~/.netrc
-          chmod 600 ~/.netrc
+          cat > /tmp/lftp_script.txt << 'LFTP_END'
+          open ftp://FTP_SERVER_PLACEHOLDER
+          user FTP_USER_PLACEHOLDER FTP_PASS_PLACEHOLDER
+          set ftp:ssl-allow true
+          set ssl:verify-certificate false
+          mirror -R --verbose --delete --exclude-glob=.git --exclude-glob=.DS_Store theme/sosuke-sato/ /sato-sosuke.com/public_html/wp-content/themes/sosuke-sato/
+          bye
+          LFTP_END
 
-          lftp "$FTP_SERVER" -e "
-            set ftp:ssl-allow true;
-            set ssl:verify-certificate false;
-            mirror -R --verbose --delete \
-              --exclude-glob=.git \
-              --exclude-glob=.DS_Store \
-              theme/sosuke-sato/ /sato-sosuke.com/public_html/wp-content/themes/sosuke-sato/;
-            bye
-          "
+          sed -i "s|FTP_SERVER_PLACEHOLDER|$FTP_SERVER|g" /tmp/lftp_script.txt
+          sed -i "s|FTP_USER_PLACEHOLDER|$FTP_USER|g" /tmp/lftp_script.txt
+          sed -i "s|FTP_PASS_PLACEHOLDER|$FTP_PASS|g" /tmp/lftp_script.txt
 
-          rm -f ~/.netrc
+          lftp -f /tmp/lftp_script.txt
+          rm -f /tmp/lftp_script.txt
