@@ -1,7 +1,10 @@
 <?php
+$sns_asobito   = sosuke_get( 'sns_asobito',   'https://asobito.jp/' );
+$sns_tiktok    = sosuke_get( 'sns_tiktok',    'https://www.tiktok.com/@sosuke_sato' );
+$sns_youtube   = sosuke_get( 'sns_youtube',   'https://www.youtube.com/@sosuke_sato01' );
+$sns_instagram = sosuke_get( 'sns_instagram',  'https://www.instagram.com/sosuke_sato01/' );
 $sns_x         = sosuke_get( 'sns_x',         'https://x.com/Sosuke_Sato' );
-$sns_instagram = sosuke_get( 'sns_instagram',  'https://www.instagram.com/' );
-$sns_linktree  = sosuke_get( 'sns_linktree',   'https://linktr.ee/sosukesato' );
+$sns_tabelog   = sosuke_get( 'sns_tabelog',   'https://tabelog.com/rvwr/usagidoshi/' );
 ?>
 
 <footer class="site-footer">
@@ -9,11 +12,21 @@ $sns_linktree  = sosuke_get( 'sns_linktree',   'https://linktr.ee/sosukesato' );
     <p class="footer-name">佐藤聡介</p>
 
     <div class="footer-social">
-      <?php if ( $sns_x ) : ?>
-      <a href="<?php echo esc_url( $sns_x ); ?>" target="_blank" rel="noopener" aria-label="X (Twitter)">
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
-          <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-4.714-6.231-5.401 6.231H2.744l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/>
-        </svg>
+      <?php if ( $sns_asobito ) : ?>
+      <a href="<?php echo esc_url( $sns_asobito ); ?>" target="_blank" rel="noopener" aria-label="アソビト">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M12 7V3H2v18h20V7H12zM6 19H4v-2h2v2zm0-4H4v-2h2v2zm0-4H4v-2h2v2zm0-4H4V5h2v2zm4 12H8v-2h2v2zm0-4H8v-2h2v2zm0-4H8v-2h2v2zm0-4H8V5h2v2zm10 12h-8v-2h2v-2h-2v-2h2v-2h-2V9h8v10zm-2-8h-2v2h2v-2zm0 4h-2v2h2v-2z"/></svg>
+      </a>
+      <?php endif; ?>
+
+      <?php if ( $sns_tiktok ) : ?>
+      <a href="<?php echo esc_url( $sns_tiktok ); ?>" target="_blank" rel="noopener" aria-label="TikTok">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M19.59 6.69a4.83 4.83 0 01-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 01-2.88 2.5 2.89 2.89 0 01-2.89-2.89 2.89 2.89 0 012.89-2.89c.28 0 .54.04.79.1V9.01a6.33 6.33 0 00-.79-.05 6.34 6.34 0 00-6.34 6.34 6.34 6.34 0 006.34 6.34 6.34 6.34 0 006.33-6.34V8.69a8.18 8.18 0 004.78 1.52V6.76a4.85 4.85 0 01-1.01-.07z"/></svg>
+      </a>
+      <?php endif; ?>
+
+      <?php if ( $sns_youtube ) : ?>
+      <a href="<?php echo esc_url( $sns_youtube ); ?>" target="_blank" rel="noopener" aria-label="YouTube">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M23.498 6.186a3.016 3.016 0 00-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 00.502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 002.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 002.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/></svg>
       </a>
       <?php endif; ?>
 
@@ -25,11 +38,17 @@ $sns_linktree  = sosuke_get( 'sns_linktree',   'https://linktr.ee/sosukesato' );
       </a>
       <?php endif; ?>
 
-      <?php if ( $sns_linktree ) : ?>
-      <a href="<?php echo esc_url( $sns_linktree ); ?>" target="_blank" rel="noopener" aria-label="Linktree">
+      <?php if ( $sns_x ) : ?>
+      <a href="<?php echo esc_url( $sns_x ); ?>" target="_blank" rel="noopener" aria-label="X (Twitter)">
         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
-          <path d="M7.953 15.066c-.08.163-.08.324-.08.486 0 1.296.972 2.295 2.268 2.295.567 0 1.08-.243 1.458-.648v.566h1.782v-8.05h-1.782v.565c-.378-.404-.891-.647-1.458-.647-1.296 0-2.268.999-2.268 2.295 0 .162 0 .324.08.486zm3.564-1.944c.567 0 1.053.486 1.053 1.053s-.486 1.053-1.053 1.053c-.567 0-1.053-.486-1.053-1.053s.486-1.053 1.053-1.053zm5.508-1.62h-1.782v1.296h-1.026v1.62h1.026v2.43c0 1.053.81 1.944 1.944 1.944h1.188v-1.62h-.648c-.324 0-.702-.162-.702-.567v-2.187h1.35v-1.62h-1.35v-1.296zM12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm5.994 7.938l-1.296 1.296-1.296-1.296-1.215 1.215 1.296 1.296-1.296 1.296 1.215 1.215 1.296-1.296 1.296 1.296 1.215-1.215-1.296-1.296 1.296-1.296-1.215-1.215z"/>
+          <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-4.714-6.231-5.401 6.231H2.744l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/>
         </svg>
+      </a>
+      <?php endif; ?>
+
+      <?php if ( $sns_tabelog ) : ?>
+      <a href="<?php echo esc_url( $sns_tabelog ); ?>" target="_blank" rel="noopener" aria-label="食べログ">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M11 9H9V2H7v7H5V2H3v7c0 2.12 1.66 3.84 3.75 3.97V22h2.5v-9.03C11.34 12.84 13 11.12 13 9V2h-2v7zm5-3v8h2.5v8H21V2c-2.76 0-5 2.24-5 4z"/></svg>
       </a>
       <?php endif; ?>
     </div>

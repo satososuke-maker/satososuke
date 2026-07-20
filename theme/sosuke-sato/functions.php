@@ -307,19 +307,34 @@ function sosuke_customizer( $wp_customize ) {
 			'default' => '心身を鍛えながら、精神力と集中力を高めています。',
 			'type'    => 'textarea',
 		],
+		'sns_asobito' => [
+			'label'   => 'アソビト URL',
+			'default' => 'https://asobito.jp/',
+			'type'    => 'url',
+		],
+		'sns_tiktok' => [
+			'label'   => 'TikTok URL',
+			'default' => 'https://www.tiktok.com/@sosuke_sato',
+			'type'    => 'url',
+		],
+		'sns_youtube' => [
+			'label'   => 'YouTube URL',
+			'default' => 'https://www.youtube.com/@sosuke_sato01',
+			'type'    => 'url',
+		],
+		'sns_instagram' => [
+			'label'   => 'Instagram URL',
+			'default' => 'https://www.instagram.com/sosuke_sato01/',
+			'type'    => 'url',
+		],
 		'sns_x' => [
 			'label'   => 'X (Twitter) URL',
 			'default' => 'https://x.com/Sosuke_Sato',
 			'type'    => 'url',
 		],
-		'sns_instagram' => [
-			'label'   => 'Instagram URL',
-			'default' => 'https://www.instagram.com/',
-			'type'    => 'url',
-		],
-		'sns_linktree' => [
-			'label'   => 'Linktree URL',
-			'default' => 'https://linktr.ee/sosukesato',
+		'sns_tabelog' => [
+			'label'   => '食べログ URL',
+			'default' => 'https://tabelog.com/rvwr/usagidoshi/',
 			'type'    => 'url',
 		],
 		'contact_email' => [
