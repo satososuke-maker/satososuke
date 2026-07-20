@@ -153,7 +153,7 @@ button { cursor: pointer; border: none; background: none; font-family: var(--fon
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
-  min-height: clamp(52vh, 56.25vw, 72vh);
+  min-height: 50vh;
   display: flex;
   align-items: center;
   justify-content: center;
