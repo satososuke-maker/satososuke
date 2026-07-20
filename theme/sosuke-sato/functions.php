@@ -266,6 +266,17 @@ function sosuke_customizer( $wp_customize ) {
 		'priority' => 30,
 	] );
 
+	/* Hero background image (image upload control — handled separately below) */
+	$wp_customize->add_setting( 'sosuke_hero_bg_image', [
+		'default'           => '',
+		'sanitize_callback' => 'esc_url_raw',
+	] );
+	$wp_customize->add_control( new WP_Customize_Image_Control( $wp_customize, 'sosuke_hero_bg_image', [
+		'label'   => 'ヒーロー背景画像',
+		'section' => 'sosuke_profile',
+		'settings' => 'sosuke_hero_bg_image',
+	] ) );
+
 	$fields = [
 		'profile_image' => [
 			'label'   => 'プロフィール画像URL',

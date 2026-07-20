@@ -7,6 +7,8 @@ $about_bio     = sosuke_get( 'about_bio',
 	"株式会社アソビト代表。（フリーランス）\nサイト制作・運用、SNS運用、動画制作、Web広告運用、SaaSの営業代行など、デジタルマーケティング全域でお仕事をしております。\nドラマー、シンガーソングライターとして楽曲制作・配信も行うほか、国内旅行の動画発信、家庭菜園、食べ歩き、キックボクシングなど、仕事・創作・暮らしを横断して活動・発信をしています。"
 );
 
+$hero_bg_image = sosuke_get( 'hero_bg_image', '' );
+
 $sns_asobito   = sosuke_get( 'sns_asobito',   'https://asobito.jp/' );
 $sns_tiktok    = sosuke_get( 'sns_tiktok',    'https://www.tiktok.com/@sosuke_sato' );
 $sns_youtube   = sosuke_get( 'sns_youtube',   'https://www.youtube.com/@sosuke_sato01' );
@@ -54,7 +56,7 @@ $svg_tabelog   = '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fi
 <!-- ============================================================
      HERO
      ============================================================ -->
-<section class="hero">
+<section class="hero"<?php if ( $hero_bg_image ) echo ' style="background-image:url(' . esc_url( $hero_bg_image ) . ')"'; ?>>
   <div class="hero-content">
 
     <h1 class="hero-name">佐藤　聡介</h1>
