@@ -151,9 +151,9 @@ button { cursor: pointer; border: none; background: none; font-family: var(--fon
 .hero {
   background: var(--bg-hero);
   background-size: cover;
-  background-position: center 40%;
+  background-position: center 60%;
   background-repeat: no-repeat;
-  min-height: 50vh;
+  min-height: 55vh;
   display: flex;
   align-items: center;
   justify-content: center;
