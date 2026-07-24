@@ -538,6 +538,8 @@ button { cursor: pointer; border: none; background: none; font-family: var(--fon
 
   .profile-inner { grid-template-columns: 1fr; }
   .profile-photo { max-width: 200px; margin: 0 auto; aspect-ratio: 1; }
+  .profile-text { text-align: center; }
+  .profile-text p { text-align: left; }
 
   .activity-grid { grid-template-columns: repeat(2, 1fr); gap: 24px 16px; }
 
