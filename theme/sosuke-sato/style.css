@@ -234,6 +234,45 @@ button { cursor: pointer; border: none; background: none; font-family: var(--fon
 .hero-social a:hover { background: var(--accent); color: var(--white); transform: translateY(-2px); }
 .hero-social svg { width: 18px; height: 18px; }
 
+.hero-nav {
+  display: flex;
+  gap: 16px;
+  justify-content: center;
+  margin-top: 28px;
+}
+.hero-nav a {
+  color: rgba(255,255,255,0.9);
+  font-size: 0.85rem;
+  letter-spacing: 0.08em;
+  border: 1px solid rgba(255,255,255,0.55);
+  padding: 8px 22px;
+  border-radius: 20px;
+  transition: background var(--transition), border-color var(--transition);
+}
+.hero-nav a:hover {
+  background: rgba(255,255,255,0.18);
+  border-color: rgba(255,255,255,0.9);
+}
+
+.profile-social {
+  display: flex;
+  gap: 10px;
+  margin-top: 20px;
+}
+.profile-social a {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background: var(--bg-alt);
+  color: var(--text);
+  transition: background var(--transition), color var(--transition), transform var(--transition);
+}
+.profile-social a:hover { background: var(--accent); color: var(--white); transform: translateY(-2px); }
+.profile-social svg { width: 18px; height: 18px; }
+
 /* ============================================================
    Section common
    ============================================================ */
@@ -540,6 +579,7 @@ button { cursor: pointer; border: none; background: none; font-family: var(--fon
   .profile-photo { max-width: 200px; margin: 0 auto; aspect-ratio: 1; }
   .profile-text { text-align: center; }
   .profile-text p { text-align: left; }
+  .profile-social { justify-content: center; }
 
   .activity-grid { grid-template-columns: repeat(2, 1fr); gap: 24px 16px; }
 

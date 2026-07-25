@@ -63,26 +63,10 @@ $svg_tabelog   = '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fi
 
     <p class="hero-tagline"><?php echo esc_html( $tagline ); ?></p>
 
-    <div class="hero-social">
-      <?php if ( $sns_asobito ) : ?>
-        <a href="<?php echo esc_url( $sns_asobito ); ?>" target="_blank" rel="noopener" aria-label="アソビト"><?php echo $svg_asobito; ?></a>
-      <?php endif; ?>
-      <?php if ( $sns_tiktok ) : ?>
-        <a href="<?php echo esc_url( $sns_tiktok ); ?>" target="_blank" rel="noopener" aria-label="TikTok"><?php echo $svg_tiktok; ?></a>
-      <?php endif; ?>
-      <?php if ( $sns_youtube ) : ?>
-        <a href="<?php echo esc_url( $sns_youtube ); ?>" target="_blank" rel="noopener" aria-label="YouTube"><?php echo $svg_youtube; ?></a>
-      <?php endif; ?>
-      <?php if ( $sns_instagram ) : ?>
-        <a href="<?php echo esc_url( $sns_instagram ); ?>" target="_blank" rel="noopener" aria-label="Instagram"><?php echo $svg_ig; ?></a>
-      <?php endif; ?>
-      <?php if ( $sns_x ) : ?>
-        <a href="<?php echo esc_url( $sns_x ); ?>" target="_blank" rel="noopener" aria-label="X"><?php echo $svg_x; ?></a>
-      <?php endif; ?>
-      <?php if ( $sns_tabelog ) : ?>
-        <a href="<?php echo esc_url( $sns_tabelog ); ?>" target="_blank" rel="noopener" aria-label="食べログ"><?php echo $svg_tabelog; ?></a>
-      <?php endif; ?>
-    </div>
+    <nav class="hero-nav">
+      <a href="#profile">プロフィール</a>
+      <a href="#activities">活動</a>
+    </nav>
 
   </div>
 </section>
@@ -165,10 +149,26 @@ $svg_tabelog   = '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fi
           $para = trim( $para );
           if ( $para ) echo '<p>' . esc_html( $para ) . '</p>';
         endforeach; ?>
-        <a href="<?php echo esc_url( sosuke_page_url( 'profile' ) ); ?>" class="btn-coral">
-          詳細
-          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" width="16" height="16"><path fill-rule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clip-rule="evenodd"/></svg>
-        </a>
+        <div class="profile-social">
+          <?php if ( $sns_asobito ) : ?>
+            <a href="<?php echo esc_url( $sns_asobito ); ?>" target="_blank" rel="noopener" aria-label="アソビト"><?php echo $svg_asobito; ?></a>
+          <?php endif; ?>
+          <?php if ( $sns_tiktok ) : ?>
+            <a href="<?php echo esc_url( $sns_tiktok ); ?>" target="_blank" rel="noopener" aria-label="TikTok"><?php echo $svg_tiktok; ?></a>
+          <?php endif; ?>
+          <?php if ( $sns_youtube ) : ?>
+            <a href="<?php echo esc_url( $sns_youtube ); ?>" target="_blank" rel="noopener" aria-label="YouTube"><?php echo $svg_youtube; ?></a>
+          <?php endif; ?>
+          <?php if ( $sns_instagram ) : ?>
+            <a href="<?php echo esc_url( $sns_instagram ); ?>" target="_blank" rel="noopener" aria-label="Instagram"><?php echo $svg_ig; ?></a>
+          <?php endif; ?>
+          <?php if ( $sns_x ) : ?>
+            <a href="<?php echo esc_url( $sns_x ); ?>" target="_blank" rel="noopener" aria-label="X"><?php echo $svg_x; ?></a>
+          <?php endif; ?>
+          <?php if ( $sns_tabelog ) : ?>
+            <a href="<?php echo esc_url( $sns_tabelog ); ?>" target="_blank" rel="noopener" aria-label="食べログ"><?php echo $svg_tabelog; ?></a>
+          <?php endif; ?>
+        </div>
       </div>
     </div>
 
@@ -196,12 +196,6 @@ $svg_tabelog   = '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fi
       <?php endforeach; ?>
     </div>
 
-    <div class="section-cta">
-      <a href="<?php echo esc_url( sosuke_page_url( 'activities' ) ); ?>" class="btn-coral">
-        詳細
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" width="16" height="16"><path fill-rule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clip-rule="evenodd"/></svg>
-      </a>
-    </div>
 
   </div>
 </section>
