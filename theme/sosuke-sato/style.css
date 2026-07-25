@@ -116,6 +116,18 @@ button { cursor: pointer; border: none; background: none; font-family: var(--fon
   color: var(--white);
 }
 .site-header.scrolled .nav-toggle { color: var(--text); }
+
+/* トップページ以外は最初から白いヘッダーを表示 */
+body:not(.home) .site-header {
+  background: rgba(255,255,255,0.96);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  box-shadow: 0 1px 0 var(--border);
+}
+body:not(.home) .site-header .nav-logo { color: var(--text); pointer-events: auto; }
+body:not(.home) .site-header .nav-menu a { color: var(--text-muted); }
+body:not(.home) .site-header .nav-menu a:hover { color: var(--accent); }
+body:not(.home) .site-header .nav-toggle { color: var(--text); }
 .nav-toggle span { display: block; width: 22px; height: 2px; background: currentColor; border-radius: 2px; transition: transform var(--transition), opacity var(--transition); }
 .nav-toggle.active span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
 .nav-toggle.active span:nth-child(2) { opacity: 0; }
