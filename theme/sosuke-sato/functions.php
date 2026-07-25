@@ -385,6 +385,19 @@ function sosuke_customizer( $wp_customize ) {
 add_action( 'customize_register', 'sosuke_customizer' );
 
 /* ------------------------------------------------------------------
+   Force taxonomy-activity_category.php for activity_category archives
+   ------------------------------------------------------------------ */
+add_filter( 'template_include', function( $template ) {
+	if ( is_tax( 'activity_category' ) ) {
+		$custom = locate_template( 'taxonomy-activity_category.php' );
+		if ( $custom ) {
+			return $custom;
+		}
+	}
+	return $template;
+}, 99 );
+
+/* ------------------------------------------------------------------
    Helper: get Customizer value
    ------------------------------------------------------------------ */
 function sosuke_get( $key, $fallback = '' ) {
