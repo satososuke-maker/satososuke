@@ -500,6 +500,8 @@ body:not(.home) .site-header .nav-toggle { color: var(--text); }
 }
 .footer-inner { max-width: var(--container); margin: 0 auto; }
 
+.footer-name { margin-bottom: 20px; }
+
 .footer-social {
   display: flex;
   justify-content: center;
