@@ -113,30 +113,23 @@ function sosuke_activity_meta( $slug ) {
 function sosuke_activity_category_add_form_field( $taxonomy ) {
 	?>
 	<div class="form-field">
-		<label for="sosuke-highlights">ハイライト・実績リスト</label>
-		<textarea name="sosuke_highlights" id="sosuke-highlights" rows="5" cols="40"></textarea>
-		<p>できること・実績を1行につき1項目で入力してください（省略可）。</p>
-	</div>
-	<div class="form-field">
 		<label for="sosuke-order">表示順</label>
 		<input type="number" name="sosuke_order" id="sosuke-order" step="10" value="">
 		<p>「活動」ページでの並び順です。数字が小さいほど先に表示されます（未入力の場合は最後尾）。</p>
+	</div>
+	<div class="form-field">
+		<label>ページコンテンツ（本文）</label>
+		<textarea name="sosuke_page_content" rows="10" cols="40"></textarea>
+		<p>保存後の編集画面でビジュアルエディターが使えます。画像・見出し・リストなど自由に入力できます。</p>
 	</div>
 	<?php
 }
 add_action( 'activity_category_add_form_fields', 'sosuke_activity_category_add_form_field' );
 
 function sosuke_activity_category_edit_form_field( $term ) {
-	$highlights = get_term_meta( $term->term_id, 'sosuke_highlights', true );
-	$order      = get_term_meta( $term->term_id, 'sosuke_order', true );
+	$order        = get_term_meta( $term->term_id, 'sosuke_order', true );
+	$page_content = get_term_meta( $term->term_id, 'sosuke_page_content', true );
 	?>
-	<tr class="form-field">
-		<th scope="row"><label for="sosuke-highlights">ハイライト・実績リスト</label></th>
-		<td>
-			<textarea name="sosuke_highlights" id="sosuke-highlights" rows="5" cols="40"><?php echo esc_textarea( $highlights ); ?></textarea>
-			<p class="description">できること・実績を1行につき1項目で入力してください（省略可）。</p>
-		</td>
-	</tr>
 	<tr class="form-field">
 		<th scope="row"><label for="sosuke-order">表示順</label></th>
 		<td>
@@ -144,13 +137,24 @@ function sosuke_activity_category_edit_form_field( $term ) {
 			<p class="description">「活動」ページでの並び順です。数字が小さいほど先に表示されます（未入力の場合は最後尾）。</p>
 		</td>
 	</tr>
+	<tr class="form-field">
+		<th scope="row"><label>ページコンテンツ（本文）</label></th>
+		<td>
+			<?php wp_editor( $page_content, 'sosuke_page_content', [
+				'textarea_name' => 'sosuke_page_content',
+				'media_buttons' => true,
+				'textarea_rows' => 20,
+			] ); ?>
+			<p class="description">このカテゴリーページに表示するコンテンツです。画像・見出し・リンクなど自由に使えます。</p>
+		</td>
+	</tr>
 	<?php
 }
 add_action( 'activity_category_edit_form_fields', 'sosuke_activity_category_edit_form_field' );
 
 function sosuke_save_activity_category_meta( $term_id ) {
-	if ( isset( $_POST['sosuke_highlights'] ) ) {
-		update_term_meta( $term_id, 'sosuke_highlights', sanitize_textarea_field( wp_unslash( $_POST['sosuke_highlights'] ) ) );
+	if ( isset( $_POST['sosuke_page_content'] ) ) {
+		update_term_meta( $term_id, 'sosuke_page_content', wp_kses_post( wp_unslash( $_POST['sosuke_page_content'] ) ) );
 	}
 	if ( isset( $_POST['sosuke_order'] ) && '' !== $_POST['sosuke_order'] ) {
 		update_term_meta( $term_id, 'sosuke_order', (int) $_POST['sosuke_order'] );

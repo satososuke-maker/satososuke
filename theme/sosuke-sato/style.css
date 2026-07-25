@@ -536,6 +536,9 @@ body:not(.home) .site-header .nav-toggle { color: var(--text); }
 
 .page-content { padding: 56px 0; }
 
+.taxonomy-desc { font-size: 1rem; color: var(--text-muted); line-height: 1.8; margin-bottom: 40px; }
+.taxonomy-content { margin-bottom: 56px; }
+
 .posts-grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));

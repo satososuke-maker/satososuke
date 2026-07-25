@@ -1,10 +1,10 @@
 <?php
 get_header();
 
-$term       = get_queried_object();
-$meta       = sosuke_activity_meta( $term->slug );
-$desc       = $meta['customizer_key'] ? sosuke_get( $meta['customizer_key'], '' ) : $term->description;
-$highlights = sosuke_get_activity_highlights( $term->term_id );
+$term         = get_queried_object();
+$meta         = sosuke_activity_meta( $term->slug );
+$desc         = $meta['customizer_key'] ? sosuke_get( $meta['customizer_key'], '' ) : $term->description;
+$page_content = get_term_meta( $term->term_id, 'sosuke_page_content', true );
 ?>
 
 <div class="page-wrap">
@@ -22,14 +22,9 @@ $highlights = sosuke_get_activity_highlights( $term->term_id );
       <p class="taxonomy-desc"><?php echo esc_html( $desc ); ?></p>
       <?php endif; ?>
 
-      <?php if ( $highlights ) : ?>
-      <div class="highlights">
-        <h3 class="highlights-title">できること・実績</h3>
-        <ul class="highlights-list">
-          <?php foreach ( $highlights as $item ) : ?>
-            <li class="highlight-item"><?php echo esc_html( $item ); ?></li>
-          <?php endforeach; ?>
-        </ul>
+      <?php if ( $page_content ) : ?>
+      <div class="taxonomy-content entry-content">
+        <?php echo wp_kses_post( $page_content ); ?>
       </div>
       <?php endif; ?>
 
