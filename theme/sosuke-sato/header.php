@@ -12,8 +12,6 @@
 <header class="site-header" id="site-header">
   <div class="container nav-inner">
 
-    <a href="<?php echo esc_url( home_url( '/' ) ); ?>" class="nav-logo">佐藤聡介</a>
-
     <nav class="nav-menu" aria-label="メインナビゲーション">
       <a href="<?php echo esc_url( home_url( '/' ) ); ?>">HOME</a>
       <a href="<?php echo esc_url( sosuke_page_url( 'contact' ) ); ?>" class="nav-contact">
