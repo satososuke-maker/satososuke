@@ -385,8 +385,27 @@ function sosuke_customizer( $wp_customize ) {
 add_action( 'customize_register', 'sosuke_customizer' );
 
 /* ------------------------------------------------------------------
-   Force taxonomy-activity_category.php for activity_category archives
+   Custom rewrite rules for activity_category taxonomy
+   (needed because /activities/ page conflicts with the rewrite slug)
    ------------------------------------------------------------------ */
+add_action( 'init', function() {
+	add_rewrite_rule(
+		'activities/category/([^/]+)/page/([0-9]+)/?$',
+		'index.php?activity_category=$matches[1]&paged=$matches[2]',
+		'top'
+	);
+	add_rewrite_rule(
+		'activities/category/([^/]+)/?$',
+		'index.php?activity_category=$matches[1]',
+		'top'
+	);
+
+	if ( get_option( 'sosuke_rewrite_v3' ) !== '1' ) {
+		flush_rewrite_rules();
+		update_option( 'sosuke_rewrite_v3', '1' );
+	}
+}, 5 );
+
 add_filter( 'template_include', function( $template ) {
 	if ( is_tax( 'activity_category' ) ) {
 		$custom = locate_template( 'taxonomy-activity_category.php' );
