@@ -9,9 +9,6 @@ $page_content = get_term_meta( $term->term_id, 'sosuke_page_content', true );
 
 <div class="page-wrap">
   <div class="page-hero">
-    <p class="breadcrumb">
-      <a href="<?php echo esc_url( sosuke_page_url( 'activities' ) ); ?>">活動</a> /
-    </p>
     <h1><?php echo $meta['icon']; ?> <?php echo esc_html( $term->name ); ?></h1>
   </div>
 
