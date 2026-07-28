@@ -27,6 +27,8 @@ $page_content = get_term_meta( $term->term_id, 'sosuke_page_content', true );
 
       <?php if ( have_posts() ) : ?>
 
+        <h2 class="section-heading">おしらせ</h2>
+
         <div class="posts-grid">
           <?php while ( have_posts() ) : the_post(); ?>
             <article id="post-<?php the_ID(); ?>" <?php post_class( 'post-card' ); ?>>

@@ -538,6 +538,8 @@ body:not(.home) .site-header .nav-toggle { color: var(--text); }
 
 .taxonomy-desc { font-size: 1.2rem; color: var(--text-muted); line-height: 1.8; margin-bottom: 40px; }
 .taxonomy-content { margin-bottom: 56px; }
+.section-heading { font-size: 1.2rem; font-weight: 700; margin: 56px 0 24px; padding-bottom: 10px; border-bottom: 2px solid var(--accent); }
+.section-note { font-size: 0.95rem; color: var(--text-muted); line-height: 1.8; margin: 40px 0 56px; }
 
 .work-grid {
   display: grid;
