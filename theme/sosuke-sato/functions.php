@@ -128,6 +128,7 @@ add_action( 'activity_category_add_form_fields', 'sosuke_activity_category_add_f
 
 function sosuke_activity_category_edit_form_field( $term ) {
 	$order        = get_term_meta( $term->term_id, 'sosuke_order', true );
+	$page_note    = get_term_meta( $term->term_id, 'sosuke_page_note', true );
 	$page_content = get_term_meta( $term->term_id, 'sosuke_page_content', true );
 	?>
 	<tr class="form-field">
@@ -135,6 +136,13 @@ function sosuke_activity_category_edit_form_field( $term ) {
 		<td>
 			<input type="number" name="sosuke_order" id="sosuke-order" step="10" value="<?php echo esc_attr( $order ); ?>">
 			<p class="description">「活動」ページでの並び順です。数字が小さいほど先に表示されます（未入力の場合は最後尾）。</p>
+		</td>
+	</tr>
+	<tr class="form-field">
+		<th scope="row"><label for="sosuke-page-note">活動ナビ下テキスト</label></th>
+		<td>
+			<textarea name="sosuke_page_note" id="sosuke-page-note" rows="3" style="width:100%"><?php echo esc_textarea( $page_note ); ?></textarea>
+			<p class="description">活動アイコン一覧の下に表示される説明文です。</p>
 		</td>
 	</tr>
 	<tr class="form-field">
@@ -155,6 +163,9 @@ add_action( 'activity_category_edit_form_fields', 'sosuke_activity_category_edit
 function sosuke_save_activity_category_meta( $term_id ) {
 	if ( isset( $_POST['sosuke_page_content'] ) ) {
 		update_term_meta( $term_id, 'sosuke_page_content', wp_kses_post( wp_unslash( $_POST['sosuke_page_content'] ) ) );
+	}
+	if ( isset( $_POST['sosuke_page_note'] ) ) {
+		update_term_meta( $term_id, 'sosuke_page_note', sanitize_textarea_field( wp_unslash( $_POST['sosuke_page_note'] ) ) );
 	}
 	if ( isset( $_POST['sosuke_order'] ) && '' !== $_POST['sosuke_order'] ) {
 		update_term_meta( $term_id, 'sosuke_order', (int) $_POST['sosuke_order'] );

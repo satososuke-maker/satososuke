@@ -4,6 +4,7 @@ get_header();
 $term         = get_queried_object();
 $meta         = sosuke_activity_meta( $term->slug );
 $desc         = $meta['customizer_key'] ? sosuke_get( $meta['customizer_key'], '' ) : $term->description;
+$page_note    = get_term_meta( $term->term_id, 'sosuke_page_note', true );
 $page_content = get_term_meta( $term->term_id, 'sosuke_page_content', true );
 ?>
 
@@ -29,8 +30,8 @@ $page_content = get_term_meta( $term->term_id, 'sosuke_page_content', true );
     <?php endforeach; ?>
   </div>
 
-  <?php if ( $term->slug === 'business' ) : ?>
-  <p class="activity-nav-note">その他、SNS運用、動画制作、Web広告運用、SaaSの営業代行、ITを活用した業務改善など、<br>デジタルマーケティング・DX全域でお仕事をしております。</p>
+  <?php if ( $page_note ) : ?>
+  <p class="activity-nav-note"><?php echo nl2br( esc_html( $page_note ) ); ?></p>
   <?php endif; ?>
 
   <div class="page-content">
