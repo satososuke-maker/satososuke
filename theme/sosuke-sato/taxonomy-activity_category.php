@@ -12,6 +12,23 @@ $page_content = get_term_meta( $term->term_id, 'sosuke_page_content', true );
     <h1><?php echo $meta['icon']; ?> <?php echo esc_html( $term->name ); ?></h1>
   </div>
 
+  <?php
+  $all_slugs = [ 'business', 'music', 'travel', 'farming', 'eating', 'kickboxing' ];
+  $other_slugs = array_diff( $all_slugs, [ $term->slug ] );
+  ?>
+  <div class="activity-nav">
+    <?php foreach ( $other_slugs as $slug ) :
+      $m = sosuke_activity_meta( $slug );
+      $t = get_term_by( 'slug', $slug, 'activity_category' );
+      if ( ! $t ) continue;
+    ?>
+      <a href="<?php echo esc_url( get_term_link( $t ) ); ?>" class="activity-nav-item">
+        <span class="activity-nav-icon"><?php echo $m['icon']; ?></span>
+        <span class="activity-nav-label"><?php echo esc_html( $m['label'] ); ?></span>
+      </a>
+    <?php endforeach; ?>
+  </div>
+
   <div class="page-content">
     <div class="container">
 
