@@ -29,6 +29,10 @@ $page_content = get_term_meta( $term->term_id, 'sosuke_page_content', true );
     <?php endforeach; ?>
   </div>
 
+  <?php if ( $term->slug === 'business' ) : ?>
+  <p class="activity-nav-note">その他、SNS運用、動画制作、Web広告運用、SaaSの営業代行、ITを活用した業務改善など、<br>デジタルマーケティング・DX全域でお仕事をしております。</p>
+  <?php endif; ?>
+
   <div class="page-content">
     <div class="container">
 
